@@ -7,10 +7,12 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class RecipeService {    
     recipesChanged = new Subject<Recipe[]>();
-    private recipes: Recipe[] = [
-        new Recipe('name','description','https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/eggs-breakfast-avocado-1296x728-header.jpg?w=1155&h=1528', [new Ingredient('Meat', 1)])
-      ];
+    // private recipes: Recipe[] = [
+    //     new Recipe('name','description','https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/eggs-breakfast-avocado-1296x728-header.jpg?w=1155&h=1528', [new Ingredient('Meat', 1)])
+    //   ];
 
+    private recipes: Recipe[] = [];
+    
     getRecipes() {
         return this.recipes.slice();
     }
@@ -36,6 +38,11 @@ export class RecipeService {
 
     deleteRecipe(index: number) {
         this.recipes.splice(index, 1);
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
         this.recipesChanged.next(this.recipes.slice());
     }
 
